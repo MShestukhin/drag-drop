@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         widget.cpp \
         customrectitem.cpp \
-        drag.cpp
+    advancedtablew.cpp
 
 HEADERS += \
         widget.h \
         customrectitem.h \
-        drag.h
+        drag.h \
+    drag.h \
+    advancedtablew.h
 
 FORMS += \
         widget.ui

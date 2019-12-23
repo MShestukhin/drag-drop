@@ -32,7 +32,7 @@ private slots:
     void on_tableWidget_itemEntered(QTableWidgetItem *item);
 
 private:
-    QMap<QTableWidgetItem *, QVector<QString>> tt;
+    QMap<QTableWidgetItem *, int> tt;
     Ui::Widget *ui;
 };
 

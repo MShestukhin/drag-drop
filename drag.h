@@ -1,25 +1,38 @@
 #ifndef DRAG_H
 #define DRAG_H
+#include <QtGui>
 
-#include <QGraphicsItem>
-#include <QFrame>
-
-class ImageItem : public QGraphicsItem
-{
-public:
-    ImageItem(QString);
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    float x1,y1,x2,y2;
-
-protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-
+#include <QLabel>
+#include <QTableWidget>
+class Drag : public QAbstractItemView {
+    Q_OBJECT
 private:
-    QImage image;
-    QVector<QImage> img_array;
-};
+    QPoint m_ptDragPos;
+    void startDrag(){
+        QMimeData* pMimeData=new QMimeData;
+        pMimeData->setText("sdfdsf");
+        QDrag* pDrag=new QDrag(this);
+        pDrag->setMimeData(pMimeData);
+        pDrag->exec();
+    }
+    virtual void mausePressEvent(QMouseEvent* pe){
+        if(pe->button() == Qt::LeftButton){
+            m_ptDragPos=pe->pos();
+        }
+        QWidget::mousePressEvent(pe);
+    }
 
+    virtual void mouseMoveEvent(QMouseEvent* pe){
+        if(pe->buttons() & Qt::LeftButton) {
+            int distance=(pe->pos() - m_ptDragPos).manhattanLength();
+//            if(distance > QApplication::startDragDistance()){
+//                startDrag();
+//            }
+            startDrag();
+            QWidget::mouseMoveEvent(pe);
+        }
+    }
+public:
+    Drag(QWidget* pwgt =0) : QAbstractItemView(pwgt){}
+};
 #endif // DRAG_H
